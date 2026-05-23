@@ -8,61 +8,78 @@ export default function Login() {
     function handleSubmit() {}
 
     return (
-        <div className="py-20 flex items-center justify-center bg-soft-lavender-100 px-6">
 
-            <div className="w-full max-w-[420px] border-2 border-deep-lavender-400 bg-butter-cream-100 p-8">
+        <div className="relative min-h-screen overflow-hidden">
 
-                {/* Heading */}
-                <div className="text-center">
+            {/* Background Image */}
+            <img
+                src="/home_page.png"
+                alt="Login Background"
+                className="absolute inset-0 h-full w-full object-cover"
+            />
 
-                    <h2 className="text-3xl font-bold text-deep-lavender-500">
-                        Welcome Back
-                    </h2>
+            {/* Dark Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-black/10" />
 
-                    <p className="mt-2 text-sm text-deep-lavender-300">
-                        Continue your learning journey
+            {/* Login Content */}
+            <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20">
+
+                <div className="w-full max-w-[420px] border border-white/20 bg-white/10 p-8 backdrop-blur-md">
+
+                    {/* Heading */}
+                    <div className="text-center">
+
+                        <h2 className="text-3xl font-bold text-white">
+                            Welcome Back
+                        </h2>
+
+                        <p className="mt-2 text-sm text-white/70">
+                            Continue your learning journey
+                        </p>
+
+                    </div>
+
+                    {/* Form */}
+                    <div className="mt-8 flex flex-col gap-4">
+
+                        <Input
+                            type="email"
+                            placeholder="Email"
+                        />
+
+                        <Input
+                            type="password"
+                            placeholder="Password"
+                        />
+
+                        <Button
+                            text="Login"
+                            icon={<FiLogIn />}
+                            type="primary"
+                            onClick={handleSubmit}
+                        />
+
+                    </div>
+
+                    {/* Footer */}
+                    <p className="mt-6 text-center text-sm text-white/70">
+
+                        Don&apos;t have an account?
+
+                        <Link
+                            to="/signup"
+                            className="ml-2 font-semibold text-white"
+                        >
+                            Sign Up
+                        </Link>
+
                     </p>
 
                 </div>
 
-                {/* Form */}
-                <div className="mt-8 flex flex-col gap-4">
-
-                    <Input
-                        type="email"
-                        placeholder="Email"
-                    />
-
-                    <Input
-                        type="password"
-                        placeholder="Password"
-                    />
-
-                    <Button
-                        text="Login"
-                        icon={<FiLogIn />}
-                        type="primary"
-                        onClick={handleSubmit}
-                    />
-
-                </div>
-
-                {/* Footer */}
-                <p className="mt-6 text-center text-sm text-deep-lavender-400">
-
-                    Don&apos;t have an account?
-
-                    <Link
-                        to="/signup"
-                        className="ml-2 font-semibold text-deep-lavender-500"
-                    >
-                        Sign Up
-                    </Link>
-
-                </p>
-
             </div>
 
         </div>
+
     );
 }
