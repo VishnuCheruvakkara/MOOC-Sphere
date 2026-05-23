@@ -1,4 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Inter", monospace;
+  }
+}
 
 /* root colors */
 :root {
@@ -6,7 +14,7 @@
   /* butter cream */
   --butter-cream-100: #FFF6E8;
   --butter-cream-200: #FFEFD2;
-  --butter-cream-300: #FFE7C1;
+  --butter-cream-300: #FFE7C1; /*base*/
   --butter-cream-400: #FFD8A0;
   --butter-cream-500: #F5C27A;
 
@@ -14,14 +22,14 @@
   --soft-lavender-100: #FDF2FD;
   --soft-lavender-200: #F8D9F8;
   --soft-lavender-300: #F3CCF3;
-  --soft-lavender-400: #E8A8E8;
+  --soft-lavender-400: #E8A8E8; /*base*/
   --soft-lavender-500: #D98AD9;
 
   /* light violet */
   --light-violet-100: #F9EDFC;
   --light-violet-200: #F0D2FA;
   --light-violet-300: #E9A8F2;
-  --light-violet-400: #D67CE8;
+  --light-violet-400: #D67CE8; /*base*/
   --light-violet-500: #BF58D1;
 
   /* deep lavender */
@@ -29,7 +37,7 @@
   --deep-lavender-200: #EFC9FA;
   --deep-lavender-300: #DC84F3;
   --deep-lavender-400: #C45AE6;
-  --deep-lavender-500: #A63ACB;
+  --deep-lavender-500: #A63ACB; /*base*/
 }
 
 /* theme mapping */
@@ -62,4 +70,18 @@
   --color-deep-lavender-300: var(--deep-lavender-300);
   --color-deep-lavender-400: var(--deep-lavender-400);
   --color-deep-lavender-500: var(--deep-lavender-500);
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--soft-lavender-200) ;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--deep-lavender-400);
 }
