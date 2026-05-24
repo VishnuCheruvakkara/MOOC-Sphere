@@ -41,8 +41,9 @@ export default function SignUp() {
             showSuccess("Account created")
             navigate('/user');
         } catch (error) {
-            console.error(error?.message);
-            showError("Signup failed, Try again!")
+            console.log(error?.response)
+            const errorMessage = error?.response?.data?.email[0] || "Signup failed, Try again!";
+            showError(errorMessage)
         }
     };
 
