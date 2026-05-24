@@ -1,7 +1,7 @@
 import logging
 
 from rest_framework_simplejwt.tokens import RefreshToken 
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer,LoginSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -54,6 +54,38 @@ class SignupView(APIView):
             except Exception:
                 return Response({"error":"Something went wrong"},status = status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data["user"]
+
+        # generate tokens
+        refresh = RefreshToken.for_user(user)
+        access = refresh.access_token
+
+        response = Response(
+            {
+                "message": "Login successful",
+                "data": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "is_staff":user.is_staff,
+                    "is_active":user.is_active,
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+
+        set_access_cookie(response, access)
+        set_refresh_cookie(response, refresh)
+
+        return response
 
 class MeView(APIView):
     permission_classes=[AllowAny]

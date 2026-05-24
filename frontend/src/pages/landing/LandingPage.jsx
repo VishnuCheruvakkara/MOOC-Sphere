@@ -50,7 +50,7 @@ export default function LandingPage() {
           <div className="max-w-3xl">
 
             <p className="mb-4 text-sm font-semibold uppercase tracking-[4px] text-butter-cream-200">
-              MOOC Sphere
+              MOOC Sphere (Massive Open Online Course Sphere)
             </p>
 
             <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
@@ -66,13 +66,13 @@ export default function LandingPage() {
             <div className="mt-10 flex gap-4">
 
               <Button
-                text="Explore Courses"
+                text="Login Now"
                 type="primary"
-                onClick={() => navigate('/courses')}
+                onClick={() => navigate('/login')}
               />
 
               <Link
-                to="/about"
+                to="/signup"
                 className="border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-black"
               >
                 Sign Up

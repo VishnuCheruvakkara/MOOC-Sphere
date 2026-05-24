@@ -24,7 +24,7 @@ export default function Login() {
         formState: { errors, isSubmitting, isValid },
     } = useForm({
         resolver: zodResolver(loginSchema),
-        mode: "onChange",
+        mode: 'onChange',
     });
 
     const onSubmit = async (data) => {
@@ -33,23 +33,24 @@ export default function Login() {
 
             dispatch(
                 loginSuccess({
-                    user: response.user,
-                    token: response.token,
-                })
+                    user: response.data,
+                }),
             );
 
-            showSuccess("Welcome back 🎉");
-            navigate("/user");
-
+            showSuccess('Welcome back');
+            navigate('/user');
         } catch (error) {
-            console.error(error);
-            showError(error?.response?.data?.message || "Login failed");
+            console.error(error?.response);
+
+            showError(
+                error?.response?.data?.non_field_errors[0] ||
+                    'Login failed',
+            );
         }
     };
 
     return (
         <div className="relative min-h-screen overflow-hidden">
-
             {/* Background */}
             <img
                 src="/home_page.png"
@@ -62,9 +63,7 @@ export default function Login() {
 
             {/* Content */}
             <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20">
-
                 <div className="w-full max-w-[420px] border border-white/20 bg-black/50 p-8 backdrop-blur-sm">
-
                     {/* Heading */}
                     <div className="text-center">
                         <h2 className="text-3xl font-bold text-white">
@@ -80,11 +79,10 @@ export default function Login() {
                         onSubmit={handleSubmit(onSubmit)}
                         className="mt-8 flex flex-col gap-4"
                     >
-
                         <Input
                             type="email"
                             placeholder="Email"
-                            {...register("email")}
+                            {...register('email')}
                         />
                         {errors.email && (
                             <p className="text-red-400 text-sm">
@@ -95,7 +93,7 @@ export default function Login() {
                         <Input
                             type="password"
                             placeholder="Password"
-                            {...register("password")}
+                            {...register('password')}
                         />
                         {errors.password && (
                             <p className="text-red-400 text-sm">
@@ -104,12 +102,11 @@ export default function Login() {
                         )}
 
                         <Button
-                            text={isSubmitting ? "Loading..." : "Login"}
+                            text={isSubmitting ? 'Loading...' : 'Login'}
                             icon={<FiLogIn />}
                             type="primary"
                             disabled={!isValid || isSubmitting}
                         />
-
                     </form>
 
                     {/* Footer */}
@@ -122,7 +119,6 @@ export default function Login() {
                             Sign Up
                         </Link>
                     </p>
-
                 </div>
             </div>
         </div>
