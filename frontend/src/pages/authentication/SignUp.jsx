@@ -34,15 +34,16 @@ export default function SignUp() {
                 email: data.email,
                 password: data.password,
             });
-
+            console.log("data->",response?.data)
             dispatch(
-                loginSuccess({ user: response.user, token: response.token }),
+                loginSuccess({ user: response.data }),
             );
             showSuccess("Account created")
             navigate('/user');
         } catch (error) {
-            console.error(error?.message);
-            showError("Signup failed, Try again!")
+            console.log(error?.response)
+            const errorMessage = error?.response?.data?.email[0] || "Signup failed, Try again!";
+            showError(errorMessage)
         }
     };
 
@@ -60,7 +61,7 @@ export default function SignUp() {
 
             {/* Signup Content */}
             <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20">
-                <div className="w-full max-w-[420px] border border-white/20 bg-white/10 p-8 backdrop-blur-md">
+                <div className="w-full max-w-[420px] border border-white/20 bg-black/50 p-8 backdrop-blur-sm">
                     {/* Heading */}
                     <div className="text-center">
                         <h2 className="text-3xl font-bold text-white">
@@ -73,7 +74,6 @@ export default function SignUp() {
                     </div>
 
                     {/* Form */}
-
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="mt-8 flex flex-col gap-4"
