@@ -1,10 +1,12 @@
-
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router';
+import CustomToaster from './components/ui/CustomToaster';
 
 function App() {
-   
     return (
         <>
-            <h1 className="text-amber-300 p-12 border-2">Hello</h1>
+            <RouterProvider router={router} />
+            <CustomToaster />
         </>
     );
 }
