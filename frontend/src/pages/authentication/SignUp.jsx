@@ -34,9 +34,9 @@ export default function SignUp() {
                 email: data.email,
                 password: data.password,
             });
-
+            console.log("data->",response?.data)
             dispatch(
-                loginSuccess({ user: response.user, token: response.token }),
+                loginSuccess({ user: response.data }),
             );
             showSuccess("Account created")
             navigate('/user');

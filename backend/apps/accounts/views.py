@@ -22,10 +22,12 @@ class SignupView(APIView):
                 refresh = RefreshToken.for_user(user)
                 access = refresh.access_token
 
-                response = Response({"user":{
+                response = Response({"data":{
                     "id":user.id,
                     "username":user.username,
-                    "email":user.email
+                    "email":user.email,
+                    "is_staff":user.is_staff,
+                    "is_active":user.is_active,
                     },
                     "message":"Account created successfully"
                     },
@@ -34,7 +36,7 @@ class SignupView(APIView):
 
                 response = set_access_cookie(response,access)
                 response = set_refresh_cookie(response,refresh)
-                
+
                 return response
             
             except IntegrityError:
