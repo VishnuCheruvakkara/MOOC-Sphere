@@ -11,7 +11,7 @@ import { loginSuccess } from '../../redux/Slices/authSlice';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { loginSchema } from '../../validations/login.schema';
+import { loginSchema } from '../../validations/auth.schema';
 import { showSuccess, showError } from '../../utils/toast';
 
 export default function Login() {

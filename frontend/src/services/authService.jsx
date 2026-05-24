@@ -1,7 +1,7 @@
 import publicAxios from "../api/publicAxios";
 
 export const signupUser = async (data) => {
-    const response = await publicAxios.post("/accounts/register/", data);
+    const response = await publicAxios.post("/accounts/signup/", data);
     return response.data;
 }
 

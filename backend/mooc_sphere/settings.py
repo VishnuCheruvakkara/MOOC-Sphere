@@ -47,6 +47,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +57,8 @@ INSTALLED_APPS = [
     # Thirdparty Apps 
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     # Custom Apps
     "accounts",
     "courses"
@@ -70,11 +73,15 @@ REST_FRAMEWORK = {
     ),
 }
 
+JWT_COOKIE_SECURE = True
+JWT_COOKIE_HTTPONLY = True
+JWT_COOKIE_SAMESITE = "None"
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    "BLACKLIST_AFTER_ROTATION": True, 
 }
 
 MIDDLEWARE = [

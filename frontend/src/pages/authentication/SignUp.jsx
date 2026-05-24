@@ -73,7 +73,6 @@ export default function SignUp() {
                     </div>
 
                     {/* Form */}
-
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="mt-8 flex flex-col gap-4"
