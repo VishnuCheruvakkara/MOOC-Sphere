@@ -10,7 +10,17 @@ import { getCourses } from '../../services/courseService';
 
 import { getYoutubeThumbnail } from '../../utils/youtube';
 
+import { useSelector } from 'react-redux';
+
+import { useNavigate } from 'react-router-dom';
+
+import { showError } from '../../utils/toast';
+
 function CourseListPage() {
+    const navigate = useNavigate();
+
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
     const [courses, setCourses] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -94,7 +104,7 @@ function CourseListPage() {
                     {courses.map((course) => (
                         <div
                             key={course.id}
-                            className="overflow-hidden border border-deep-lavender-300 bg-butter-cream-100"
+                            className="overflow-hidden border-2 border-deep-lavender-300 bg-butter-cream-100"
                         >
                             <div className="aspect-video overflow-hidden bg-soft-lavender-200">
                                 {course.first_lesson_video ? (
@@ -122,7 +132,23 @@ function CourseListPage() {
                                 </p>
 
                                 <div className="mt-auto pt-4">
-                                    <Button text="View Course" type="primary" />
+                                    <Button
+                                        text="Enroll Course"
+                                        type="primary"
+                                        onClick={() => {
+                                            if (!isAuthenticated) {
+                                                showError(
+                                                    'Please login to enroll course',
+                                                );
+
+                                                navigate('/login');
+
+                                                return;
+                                            }
+
+                                            navigate(`/courses/${course.id}`);
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
