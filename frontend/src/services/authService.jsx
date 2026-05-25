@@ -12,9 +12,7 @@ export const loginUser = async (data) => {
 };
 
 export const getCurrentUser = async () => {
-    const response = await privateAxios.get(
-        "/accounts/me/"
-    );
+    const response = await publicAxios.get("/accounts/me/");
     return response.data;
 }
 
