@@ -1,18 +1,25 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
+import UserMenu from '../components/common/UserMenu';
 
 export default function UserLayout() {
     return (
-        <div className="min-h-screen flex flex-col bg-butter-cream-300 ">
+        <div className="min-h-screen flex flex-col bg-butter-cream-300">
+
             <Navbar />
 
-            {/* Page content */}
-            <main className="flex-1 ">
-                <Outlet />
-            </main>
+            <div className="pt-16">
 
-            <Footer />
+                <UserMenu />
+
+                <main className="flex-1">
+                    <Outlet />
+                </main>
+
+                <Footer />
+
+            </div>
         </div>
     );
 }

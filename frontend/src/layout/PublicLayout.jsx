@@ -8,7 +8,7 @@ export default function PublicLayout() {
             <Navbar />
 
             {/* Page content */}
-            <main className="flex-1 ">
+            <main className="flex-1 mt-16">
                 <Outlet />
             </main>
 

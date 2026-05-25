@@ -17,5 +17,11 @@ export const getLatestFourCourses = async () => {
 export const getCourseDetail = async (courseId) => {
     const response = await privateAxios.get(`/courses/all-courses/${courseId}/`);
     return response.data;
-};
+};;
 
+export const markLessonVisited = async (lessonId) => {
+    const response = await privateAxios.post(
+        `/courses/lessons/${lessonId}/visit/`
+    );
+    return response.data;
+};

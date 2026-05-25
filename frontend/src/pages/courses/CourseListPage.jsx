@@ -68,7 +68,7 @@ function CourseListPage() {
     }
 
     return (
-        <div className="min-h-screen bg-soft-lavender-100 px-6 py-20">
+        <div className="min-h-screen bg-soft-lavender-100 px-6 py-6">
             <div className="mx-auto max-w-7xl">
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-deep-lavender-500">
@@ -146,7 +146,7 @@ function CourseListPage() {
                                                 return;
                                             }
 
-                                            navigate(`/courses/${course.id}`);
+                                            navigate(`/user/courses/${course.id}`);
                                         }}
                                     />
                                 </div>

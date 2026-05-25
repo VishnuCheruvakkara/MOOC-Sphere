@@ -3,6 +3,7 @@ import CourseListPage from '../pages/courses/CourseListPage';
 import MyLearning from '../pages/user-dashboard/MyLearning';
 import UserRouteProtection from './guard/UserRouteProtection';
 import ErrorPage from '../pages/notfound/ErrorPage';
+import CourseDetailPage from '../pages/courses/CourseDetailPage';
 
 export const userRoutes = {
     path: '/user',
@@ -14,6 +15,6 @@ export const userRoutes = {
     errorElement: <ErrorPage />,
     children: [
         { index: true, element: <CourseListPage /> },
-        { path: 'my-learning', element: <MyLearning /> },
+        { path: 'courses/:id', element: <CourseDetailPage /> },
     ],
 };

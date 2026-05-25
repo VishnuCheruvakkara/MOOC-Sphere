@@ -1,16 +1,29 @@
 from rest_framework import serializers
-from .models import Course, Lesson
+from .models import Course, Lesson,LessonProgress
 
 class LessonSerializer(serializers.ModelSerializer):
+    is_visited = serializers.SerializerMethodField()
     class Meta:
         model = Lesson
         fields = [
             "id",
             "title",
             "content",
-            "video_url"
+            "video_url",
             "created_at",
+            "is_visited",
         ]
+
+    def get_is_visited(self, obj):
+        request = self.context.get("request")
+
+        if not request or not request.user.is_authenticated:
+            return False
+
+        return LessonProgress.objects.filter(
+            user=request.user,
+            lesson=obj
+        ).exists()
 
 class CourseSerializer(serializers.ModelSerializer):
     first_lesson_video = serializers.SerializerMethodField()
