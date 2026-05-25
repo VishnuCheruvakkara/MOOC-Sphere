@@ -9,6 +9,7 @@ import Button from '../ui/Button';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/Slices/authSlice';
+import { persistor } from '../../redux/store';
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Navbar() {
             await logoutuser();
 
             dispatch(logout());
+            await persistor.purge();
 
             navigate('/login');
         } catch (error) {

@@ -14,6 +14,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
+      
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework_simplejwt.settings import api_settings
+
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -126,4 +130,47 @@ class LogoutView(APIView):
 
         return response
         
+
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        refresh_token = request.COOKIES.get(settings.JWT_REFRESH_COOKIE_NAME)
+        if not refresh_token:
+            return Response(
+                {
+                    "code": "REFRESH_TOKEN_MISSING",
+                    "detail": "Refresh token not found"
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = TokenRefreshSerializer(data={"refresh": refresh_token})
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError:
+            response = Response(
+                {
+                    "code": "REFRESH_TOKEN_INVALID",
+                    "detail": "Refresh token expired or invalid"
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+            delete_access_cookie(response)
+            delete_refresh_cookie(response)
+            return response
+
+        data = serializer.validated_data
+
+        response = Response(
+            {
+                "code": "ACCESS_TOKEN_REFRESHED",
+                "message": "Access token refreshed"
+            }, status=status.HTTP_200_OK)
         
+        set_access_cookie(response, data["access"])
+
+        if api_settings.ROTATE_REFRESH_TOKENS and data.get("refresh"):
+            set_refresh_cookie(response, data["refresh"])
+
+        return response

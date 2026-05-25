@@ -1,4 +1,5 @@
 import publicAxios from "../api/publicAxios";
+import privateAxios from "../api/privateAxios";
 
 export const signupUser = async (data) => {
     const response = await publicAxios.post("/accounts/signup/", data);
@@ -11,7 +12,7 @@ export const loginUser = async (data) => {
 };
 
 export const getCurrentUser = async () => {
-    const response = await publicAxios.get(
+    const response = await privateAxios.get(
         "/accounts/me/"
     );
     return response.data;
