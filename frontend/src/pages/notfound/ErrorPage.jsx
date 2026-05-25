@@ -3,7 +3,6 @@ import Button from '../../components/ui/Button';
 import { IoHomeSharp } from "react-icons/io5";
 
 export default function ErrorPage() {
-    const error = useRouteError();
     const navigate = useNavigate();
 
     return (

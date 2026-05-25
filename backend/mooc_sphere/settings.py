@@ -74,7 +74,9 @@ REST_FRAMEWORK = {
     
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-    )
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 8,
 }
 
 JWT_ACCESS_COOKIE_NAME = "access_token"
@@ -90,6 +92,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True, 
 }
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -195,5 +198,21 @@ LOGGING = {
     "root": {
         "handlers": ["console"],
         "level": "DEBUG",
+    },
+}
+
+
+# Jazzmin Configuration
+JAZZMIN_SETTINGS = {
+    "site_title": "MOOCSphere",
+    "site_header": "MOOCSphere Admin",
+    "site_brand": "MOOCSphere",
+    "copyright": "MOOCSphere 2026",
+    "theme": "darkly",
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "accounts.customuser": "fas fa-user-tie",
+        "courses.course": "fas fa-book",
     },
 }

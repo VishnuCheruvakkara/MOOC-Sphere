@@ -4,10 +4,11 @@ import Footer from '../components/common/Footer';
 
 export default function UserLayout() {
     return (
-        <div className="min-h-screen flex flex-col bg-butter-cream-300">
+        <div className="min-h-screen flex flex-col bg-butter-cream-300 ">
             <Navbar />
 
-            <main className="flex-1">
+            {/* Page content */}
+            <main className="flex-1 ">
                 <Outlet />
             </main>
 

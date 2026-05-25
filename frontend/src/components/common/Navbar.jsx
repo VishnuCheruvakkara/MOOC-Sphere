@@ -30,9 +30,9 @@ export default function Navbar() {
         }
     };
     return (
-        <header className="fixed top-0 left-0 w-full z-50 border-b-2 border-deep-lavender-400 bg-butter-cream-100">
-            <div className="max-w-7xl mx-auto px-6 lg:px-10">
-                <div className="flex items-center justify-between py-3">
+        <header className="fixed top-0 left-0 w-full z-50 border-b-2 border-deep-lavender-400 bg-butter-cream-100 h-16 site-header">
+            <div className="max-w-7xl mx-auto px-6 lg:px-10 h-full">
+                <div className="flex items-center justify-between h-full">
                     {/* Logo */}
                     <Link
                         to="/"

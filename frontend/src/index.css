@@ -85,3 +85,17 @@
 ::-webkit-scrollbar-thumb {
   background: var(--deep-lavender-400);
 }
+
+/* Header height variable */
+:root {
+  --header-height: 4rem; /* matches h-16 */
+}
+
+/* Utility classes for header and main offset when Tailwind isn't used */
+.site-header {
+  height: var(--header-height);
+}
+
+.site-main {
+  padding-top: var(--header-height);
+}
