@@ -4,13 +4,16 @@ import LandingPage from "../pages/landing/LandingPage";
 import Login from "../pages/authentication/Login";
 import SignUp from "../pages/authentication/SignUp";
 import ErrorPage from "../pages/notfound/ErrorPage";
-import { publicLoader } from "./loader";
+import PublicRouteProtection from "./guard/PublicRouteProtection";
 
 export const publicRoutes = {
     path: "/",
-    element: <PublicLayout />,
+    element: (
+        <PublicRouteProtection>
+            <PublicLayout />
+        </PublicRouteProtection>
+    ),
     errorElement: <ErrorPage />,
-    loader: publicLoader,
     children: [
         {index:true,element:<LandingPage/>},
         {path:"login",element:<Login/>},

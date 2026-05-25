@@ -1,37 +1,38 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/router';
 import CustomToaster from './components/ui/CustomToaster';
 import { getCurrentUser } from './services/authService';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from './redux/Slices/authSlice';
+import { loginSuccess, logout, setBootstrapped } from './redux/Slices/authSlice';
+import { persistor } from './redux/store';
 import Loader from './components/ui/Loader';
 
 function App() {
-    const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        
-        const verifyUser = async () => {
-            setLoading(true);
+        const bootstrapAuth = async () => {
             try {
                 const user = await getCurrentUser();
-                dispatch(loginSuccess({ user }))
+                dispatch(loginSuccess({ user }));
             } catch (error) {
-                console.error(error.message)
+                dispatch(logout());
+                await persistor.purge();
             } finally {
+                dispatch(setBootstrapped());
                 setLoading(false);
             }
-        }
-        verifyUser();
+        };
+
+        bootstrapAuth();
     }, [dispatch]);
-
-
 
     if (loading) {
         return <Loader />;
     }
-    
+
     return (
         <>
             <RouterProvider router={router} />
