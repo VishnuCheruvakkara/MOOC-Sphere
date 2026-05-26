@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   backend:
-    image: ${DOCKER_USERNAME}/moocsphere-backend:latest
+    image: vishnucheruvakkara/moocsphere-backend:latest
 
     container_name: moocsphere_backend
 
