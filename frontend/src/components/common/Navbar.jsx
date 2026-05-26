@@ -30,9 +30,9 @@ export default function Navbar() {
         }
     };
     return (
-        <header className="fixed top-0 left-0 w-full z-50 border-b-2 border-deep-lavender-400 bg-butter-cream-100">
-            <div className="max-w-7xl mx-auto px-6 lg:px-10">
-                <div className="flex items-center justify-between py-3">
+        <header className="fixed top-0 left-0 w-full z-50 border-b-2 border-deep-lavender-400 bg-butter-cream-100 h-16 site-header">
+            <div className="max-w-7xl mx-auto px-6 lg:px-10 h-full">
+                <div className="flex items-center justify-between h-full">
                     {/* Logo */}
                     <Link
                         to="/"
@@ -48,23 +48,27 @@ export default function Navbar() {
                     </Link>
 
                     {/* Navigation */}
-                    <nav className="hidden md:flex items-center gap-3">
+                    <nav className="flex items-center gap-3">
                         {!isAuthenticated ? (
                             <>
-                                <Button
-                                    text="Login"
-                                    icon={<FiLogIn />}
-                                    onClick={() => navigate('/login')}
-                                />
+                                {/* Only large screens */}
+                                <div className="hidden md:flex items-center gap-3">
+                                    <Button
+                                        text="Login"
+                                        icon={<FiLogIn />}
+                                        onClick={() => navigate('/login')}
+                                    />
 
-                                <Button
-                                    text="Sign Up"
-                                    icon={<HiOutlineUserAdd />}
-                                    type="primary"
-                                    onClick={() => navigate('/signup')}
-                                />
+                                    <Button
+                                        text="Sign Up"
+                                        icon={<HiOutlineUserAdd />}
+                                        type="primary"
+                                        onClick={() => navigate('/signup')}
+                                    />
+                                </div>
                             </>
                         ) : (
+                            /* Logout always visible */
                             <Button
                                 text="Logout"
                                 type="primary"

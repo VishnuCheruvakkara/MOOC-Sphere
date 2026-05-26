@@ -1,7 +1,8 @@
 import UserLayout from '../layout/UserLayout';
-import Courses from '../pages/user-dashboard/Courses';
-import MyLearning from '../pages/user-dashboard/MyLearning';
+import CourseListPage from '../pages/courses/CourseListPage';
 import UserRouteProtection from './guard/UserRouteProtection';
+import ErrorPage from '../pages/notfound/ErrorPage';
+import CourseDetailPage from '../pages/courses/CourseDetailPage';
 
 export const userRoutes = {
     path: '/user',
@@ -10,9 +11,9 @@ export const userRoutes = {
             <UserLayout />
         </UserRouteProtection>
     ),
+    errorElement: <ErrorPage />,
     children: [
-        { index: true, element: <Courses /> },
-        { path: 'courses', element: <Courses /> },
-        { path: 'my-learning', element: <MyLearning /> },
+        { index: true, element: <CourseListPage /> },
+        { path: 'courses/:id', element: <CourseDetailPage /> },
     ],
 };
