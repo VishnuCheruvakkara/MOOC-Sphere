@@ -20,6 +20,8 @@ services:
     command: >
       gunicorn mooc_sphere.wsgi:application
       --bind 0.0.0.0:8000
+    volumes:
+      - /home/tradeclov/staticfiles:/app/staticfiles
 
   db:
     image: postgres:15
