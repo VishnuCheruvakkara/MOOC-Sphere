@@ -1,9 +1,11 @@
 from rest_framework import generics
-from .models import Course,Lesson,LessonProgress
+from .models import Course,Lesson,LessonProgress,Enrollment
 from .serializers import CourseSerializer, CourseDetailSerializer
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 
 class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
@@ -44,3 +46,18 @@ class MarkLessonVisitedView(generics.CreateAPIView):
         )
 
         return Response({"message": "visited"})
+    
+class EnrollCourseView(generics.GenericAPIView):
+
+    def post(self, request, course_id):
+        course = get_object_or_404(Course, id=course_id)
+
+        enrollment, created = Enrollment.objects.get_or_create(
+            user=request.user,
+            course=course
+        )
+
+        return Response({
+            "message": "enrolled",
+            "created": created
+        })

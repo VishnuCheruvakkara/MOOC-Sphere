@@ -3,7 +3,7 @@ import { markLessonVisited } from '../../services/courseService';
 import { FaCheckCircle } from 'react-icons/fa';
 import { showSuccess, showError } from '../../utils/toast';
 
-export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
+export default function LessonCard({ lesson, onClick, isActive, onVisited, index }) {
     const handleClick = async () => {
         try {
             await markLessonVisited(lesson.id);
@@ -13,7 +13,6 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
             showError('Failed to mark lesson');
         }
 
-        // notify parent so UI updates immediately without refetch
         if (typeof onVisited === 'function') onVisited(lesson.id);
 
         onClick();
@@ -30,7 +29,8 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
             }`}
         >
             <div className="flex gap-3 items-start">
-                {/* THUMBNAIL WITH VISITED ICON */}
+
+                {/* THUMBNAIL */}
                 <div className="relative w-20 h-14 overflow-visible">
                     <img
                         src={getYoutubeThumbnail(lesson.video_url)}
@@ -38,7 +38,6 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
                         alt={lesson.title}
                     />
 
-                    {/* VISITED BADGE FIXED */}
                     {lesson.is_visited && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <div className="bg-white bg-opacity-90 border-2 border-green-600 text-green-600 px-1 py-1 rounded-full shadow-md flex items-center">
@@ -50,6 +49,12 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
 
                 {/* CONTENT */}
                 <div className="flex-1">
+
+                    {/* 🔢 LESSON NUMBER */}
+                    <p className="text-xs text-gray-400 font-medium">
+                        Lesson {index + 1}
+                    </p>
+
                     <h3 className="font-semibold text-gray-800 line-clamp-1">
                         {lesson.title}
                     </h3>
@@ -58,6 +63,7 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited }) {
                         {lesson.content}
                     </p>
                 </div>
+
             </div>
         </div>
     );

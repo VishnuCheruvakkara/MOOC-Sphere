@@ -40,6 +40,11 @@ export default function CourseDetailPage() {
     if (loading) return <Loader />;
     if (!course) return <div>Course not found</div>;
 
+    // PROGRESS CALCULATION
+    const totalLessons = course.lessons?.length || 0;
+    const completedLessons = course.lessons?.filter(l => l.is_visited).length || 0;
+    const progressPercent = totalLessons === 0 ? 0 : Math.round((completedLessons / totalLessons) * 100);
+
     return (
         <div className="min-h-screen bg-soft-lavender-100 px-6 py-6">
 
@@ -54,6 +59,21 @@ export default function CourseDetailPage() {
                     <p className="mt-2 text-sm text-gray-600">
                         {course.description}
                     </p>
+
+                    {/* PROGRESS BAR */}
+                    <div className="mt-4">
+                        <div className="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Progress</span>
+                            <span>{completedLessons} / {totalLessons} ({progressPercent}%)</span>
+                        </div>
+
+                        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-green-500 transition-all"
+                                style={{ width: `${progressPercent}%` }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 {/* MAIN GRID */}
@@ -89,10 +109,11 @@ export default function CourseDetailPage() {
                             Lessons
                         </h2>
 
-                        {course.lessons.map((lesson) => (
+                        {course.lessons.map((lesson, index) => (
                             <LessonCard
                                 key={lesson.id}
                                 lesson={lesson}
+                                index={index} 
                                 isActive={activeLesson?.id === lesson.id}
                                 onClick={() => setActiveLesson(lesson)}
                                 onVisited={(lessonId) => {
@@ -107,7 +128,9 @@ export default function CourseDetailPage() {
                                     });
 
                                     if (activeLesson?.id === lessonId) {
-                                        setActiveLesson((prev) => (prev ? { ...prev, is_visited: true } : prev));
+                                        setActiveLesson((prev) =>
+                                            prev ? { ...prev, is_visited: true } : prev
+                                        );
                                     }
                                 }}
                             />

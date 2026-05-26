@@ -3,18 +3,15 @@ import { useEffect, useState } from 'react';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import Loader from '../../components/ui/Loader';
-
 import Pagination from '../../components/ui/Pagination';
 
-import { getCourses } from '../../services/courseService';
-
+import { getCourses, enrollCourse } from '../../services/courseService';
 import { getYoutubeThumbnail } from '../../utils/youtube';
 
 import { useSelector } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
 
-import { showError } from '../../utils/toast';
+import { showError, showSuccess } from '../../utils/toast';
 
 function CourseListPage() {
     const navigate = useNavigate();
@@ -22,46 +19,61 @@ function CourseListPage() {
     const { isAuthenticated } = useSelector((state) => state.auth);
 
     const [courses, setCourses] = useState([]);
-
     const [loading, setLoading] = useState(true);
 
     const [search, setSearch] = useState('');
-
     const [page, setPage] = useState(1);
 
     const [totalPages, setTotalPages] = useState(1);
-
     const [nextPage, setNextPage] = useState(null);
-
     const [previousPage, setPreviousPage] = useState(null);
 
+    //reusable fetch function
+    const fetchCourses = async () => {
+        try {
+            setLoading(true);
+
+            const data = await getCourses(search, page);
+            console.log("Fetched course -> ", data);
+
+            setCourses(data.results);
+            setNextPage(data.next);
+            setPreviousPage(data.previous);
+            setTotalPages(Math.ceil(data.count / 8));
+
+        } catch (error) {
+            console.error('Failed to fetch courses', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                setLoading(true);
-
-                const data = await getCourses(search, page);
-
-                setCourses(data.results);
-
-                setNextPage(data.next);
-
-                setPreviousPage(data.previous);
-
-                setTotalPages(Math.ceil(data.count / 8));
-            } catch (error) {
-                console.error('Failed to fetch courses', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         const timer = setTimeout(() => {
             fetchCourses();
         }, 700);
 
         return () => clearTimeout(timer);
     }, [search, page]);
+
+    // FIXED enroll handler (updates UI instantly)
+    const handleEnroll = async (courseId) => {
+        try {
+            const response = await enrollCourse(courseId);
+
+            const created = response.data.created;
+
+            showSuccess(
+                created ? 'Enrolled successfully' : 'Already enrolled',
+            );
+
+            navigate(`/user/courses/${courseId}`);
+
+        } catch (error) {
+            console.error('Enrollment failed', error);
+            showError('Enrollment failed');
+        }
+    };
 
     if (loading) {
         return <Loader />;
@@ -70,6 +82,8 @@ function CourseListPage() {
     return (
         <div className="min-h-screen bg-soft-lavender-100 px-6 py-6">
             <div className="mx-auto max-w-7xl">
+
+                {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-deep-lavender-500">
                         All Courses
@@ -80,6 +94,7 @@ function CourseListPage() {
                     </p>
                 </div>
 
+                {/* Search */}
                 <div className="mb-10 flex gap-3">
                     <Input
                         placeholder="Search courses..."
@@ -100,12 +115,14 @@ function CourseListPage() {
                     />
                 </div>
 
+                {/* Courses grid */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {courses.map((course) => (
                         <div
                             key={course.id}
                             className="overflow-hidden border-2 border-deep-lavender-300 bg-butter-cream-100"
                         >
+                            {/* Thumbnail */}
                             <div className="aspect-video overflow-hidden bg-soft-lavender-200">
                                 {course.first_lesson_video ? (
                                     <img
@@ -122,6 +139,7 @@ function CourseListPage() {
                                 )}
                             </div>
 
+                            {/* Content */}
                             <div className="flex min-h-[190px] flex-col p-4">
                                 <h3 className="line-clamp-1 text-lg font-bold text-deep-lavender-500">
                                     {course.title}
@@ -131,30 +149,45 @@ function CourseListPage() {
                                     {course.description}
                                 </p>
 
+                                {/* Action */}
                                 <div className="mt-auto pt-4">
-                                    <Button
-                                        text="Enroll Course"
-                                        type="primary"
-                                        onClick={() => {
-                                            if (!isAuthenticated) {
+                                    {!isAuthenticated ? (
+                                        <Button
+                                            text="Login"
+                                            type="primary"
+                                            onClick={() => {
                                                 showError(
                                                     'Please login to enroll course',
                                                 );
-
                                                 navigate('/login');
-
-                                                return;
+                                            }}
+                                        />
+                                    ) : course.is_enrolled ? (
+                                        <Button
+                                            text="Continue Course"
+                                            type="outline"
+                                            onClick={() =>
+                                                navigate(
+                                                    `/user/courses/${course.id}`,
+                                                )
                                             }
-
-                                            navigate(`/user/courses/${course.id}`);
-                                        }}
-                                    />
+                                        />
+                                    ) : (
+                                        <Button
+                                            text="Enroll Course"
+                                            type="primary"
+                                            onClick={() =>
+                                                handleEnroll(course.id)
+                                            }
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
 
+                {/* Empty state */}
                 {courses.length === 0 && !loading && (
                     <div className="flex min-h-[350px] items-center justify-center py-16">
                         <div className="text-center">
@@ -169,6 +202,7 @@ function CourseListPage() {
                     </div>
                 )}
 
+                {/* Pagination */}
                 <Pagination
                     page={page}
                     totalPages={totalPages}
@@ -177,6 +211,7 @@ function CourseListPage() {
                     previousPage={previousPage}
                     setPage={setPage}
                 />
+
             </div>
         </div>
     );

@@ -25,3 +25,7 @@ export const markLessonVisited = async (lessonId) => {
     );
     return response.data;
 };
+
+export const enrollCourse = async (courseId) => {
+    return privateAxios.post(`/courses/all-courses/${courseId}/enroll/`);
+};

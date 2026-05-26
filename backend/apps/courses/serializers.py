@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Lesson,LessonProgress
+from .models import Course, Lesson,LessonProgress,Enrollment
 
 class LessonSerializer(serializers.ModelSerializer):
     is_visited = serializers.SerializerMethodField()
@@ -27,6 +27,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     first_lesson_video = serializers.SerializerMethodField()
+    is_enrolled = serializers.SerializerMethodField() 
 
     class Meta:
         model = Course
@@ -36,6 +37,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "first_lesson_video",
+            "is_enrolled"
         ]
 
     def get_first_lesson_video(self, obj):
@@ -46,6 +48,17 @@ class CourseSerializer(serializers.ModelSerializer):
             return first_lesson.video_url
 
         return None
+    
+    def get_is_enrolled(self, obj):
+        request = self.context.get("request")
+
+        if not request or not request.user.is_authenticated:
+            return False
+
+        return Enrollment.objects.filter(
+            user=request.user,
+            course=obj
+        ).exists()
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
