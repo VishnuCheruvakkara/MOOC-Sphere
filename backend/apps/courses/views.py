@@ -19,7 +19,13 @@ class CourseListView(generics.ListAPIView):
         queryset = Course.objects.all().order_by("-created_at")
 
         limit = self.request.query_params.get("limit")
+        my_course = self.request.query_params.get("my_course")
 
+        if my_course == "true" and self.request.user.is_authenticated:
+            queryset = queryset.filter(
+                enrollments__user=self.request.user
+            ).distinct()
+            
         if limit:
             queryset = queryset[:int(limit)]
 

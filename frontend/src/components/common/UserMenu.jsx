@@ -31,13 +31,13 @@ export default function UserMenu() {
                 <div className="flex items-center gap-3">
                     <Button
                         text="All Courses"
-                        onClick={() => navigate('/user')}
+                        onClick={() => navigate('/user?type=all-courses')}
                     />
 
                     <Button
                         text="My Courses"
                         type="primary"
-                        onClick={() => navigate('/user/my-learning')}
+                        onClick={() => navigate('/user?type=my-courses')}
                     />
                 </div>
             </div>

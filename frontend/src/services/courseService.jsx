@@ -1,9 +1,9 @@
 import privateAxios from "../api/privateAxios";
 import publicAxios from "../api/publicAxios";
 
-export const getCourses = async (search = '', page = 1) => {
+export const getCourses = async (search = '', page = 1, myCourse=false) => {
     const response = await publicAxios.get(
-        `/courses/all-courses/?search=${search}&page=${page}`
+        `/courses/all-courses/?search=${search}&page=${page}&my_course=${myCourse}`
     );
     return response.data;
 };

@@ -48,23 +48,27 @@ export default function Navbar() {
                     </Link>
 
                     {/* Navigation */}
-                    <nav className="hidden md:flex items-center gap-3">
+                    <nav className="flex items-center gap-3">
                         {!isAuthenticated ? (
                             <>
-                                <Button
-                                    text="Login"
-                                    icon={<FiLogIn />}
-                                    onClick={() => navigate('/login')}
-                                />
+                                {/* Only large screens */}
+                                <div className="hidden md:flex items-center gap-3">
+                                    <Button
+                                        text="Login"
+                                        icon={<FiLogIn />}
+                                        onClick={() => navigate('/login')}
+                                    />
 
-                                <Button
-                                    text="Sign Up"
-                                    icon={<HiOutlineUserAdd />}
-                                    type="primary"
-                                    onClick={() => navigate('/signup')}
-                                />
+                                    <Button
+                                        text="Sign Up"
+                                        icon={<HiOutlineUserAdd />}
+                                        type="primary"
+                                        onClick={() => navigate('/signup')}
+                                    />
+                                </div>
                             </>
                         ) : (
+                            /* Logout always visible */
                             <Button
                                 text="Logout"
                                 type="primary"

@@ -28,6 +28,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     first_lesson_video = serializers.SerializerMethodField()
     is_enrolled = serializers.SerializerMethodField() 
+    is_completed = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -37,7 +38,8 @@ class CourseSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "first_lesson_video",
-            "is_enrolled"
+            "is_enrolled",
+            "is_completed"   
         ]
 
     def get_first_lesson_video(self, obj):
@@ -59,6 +61,22 @@ class CourseSerializer(serializers.ModelSerializer):
             user=request.user,
             course=obj
         ).exists()
+    
+    def get_is_completed(self, obj):
+        request = self.context.get("request")
+
+        if not request or not request.user.is_authenticated:
+            return False
+
+        enrollment = Enrollment.objects.filter(
+            user=request.user,
+            course=obj
+        ).first()
+
+        if not enrollment:
+            return False
+
+        return enrollment.is_completed()
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
