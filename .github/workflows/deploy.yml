@@ -27,7 +27,7 @@ jobs:
         run: |
 
 
-          docker push ${{ secrets.DOCKER_USERNAME }}/moocsphere-backend:latest ./backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/moocsphere-backend:latest
           
       - name: Create .env file
         run: |
