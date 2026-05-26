@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: moocsphere_backend
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    command: ["gunicorn", "mooc_sphere.wsgi:application", "--bind", "0.0.0.0:8000"]
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
