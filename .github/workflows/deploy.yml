@@ -25,7 +25,9 @@ jobs:
 
       - name: Push Docker image
         run: |
+
           docker push ${{ secrets.DOCKER_USERNAME }}/moocsphere-backend:latest ./backend
+
 
       - name: Create .env file
         run: |
@@ -53,3 +55,4 @@ jobs:
             docker compose -f docker-compose.prod.yml pull
 
             docker compose -f docker-compose.prod.yml up -d
+
