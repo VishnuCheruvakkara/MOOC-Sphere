@@ -27,7 +27,7 @@ jobs:
         run: |
 
 
-          docker push ${{ secrets.DOCKER_USERNAME }}/moocsphere-backend:latest ./backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/moocsphere-backend:latest
           
       - name: Create .env file
         run: |
@@ -39,7 +39,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ".env,docker-compose.prod.yml"
+          source: ".env"
           target: "/home/tradeclov"
 
       - name: Deploy to GCP VM
