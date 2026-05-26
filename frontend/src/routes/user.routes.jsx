@@ -1,4 +1,4 @@
-import UserLayout from '../layout/UserLayout';
+import UserLayout from '../layout/userLayout';
 import CourseListPage from '../pages/courses/CourseListPage';
 import UserRouteProtection from './guard/UserRouteProtection';
 import ErrorPage from '../pages/notfound/ErrorPage';
