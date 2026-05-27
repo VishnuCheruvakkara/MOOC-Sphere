@@ -131,6 +131,7 @@ or
 http://127.0.0.1:5173
 
 ```
+
 ---
 MOOCSphere — A Massive Open Online Course Sphere
 © 2026 MOOCSphere. All rights reserved.
