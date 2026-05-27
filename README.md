@@ -1,8 +1,19 @@
 # MOOCSphere
 
-## App Introduction
+## About
 
 MOOCSphere ( Massive Open Online Course Sphere ) is a MOOC-style course catalog application with a Django backend and a React frontend. Students can sign up, log in, view courses, enroll in courses, view lessons, and track lesson progress.
+
+<p align="center">
+  <img src="./assets/home.png" alt="Home page of MOOCSphere" width="100%" style="border-radius: 16px;" />
+</p>
+
+<p align="center">
+  <a href="https://moocsphere.agriflow.space" target="_blank">
+    <img alt="View Live Project" src="https://img.shields.io/badge/%20Live%20Demo-c45ae6?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
+ 
+</p>
 
 ## Features
 
