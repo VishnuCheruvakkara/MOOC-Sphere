@@ -2,7 +2,7 @@
 
 ## App Introduction
 
-MOOCSphere is a MOOC-style course catalog application with a Django backend and a React frontend. Students can sign up, log in, view courses, enroll in courses, view lessons, and track lesson progress.
+MOOCSphere ( Massive Open Online Course Sphere ) is a MOOC-style course catalog application with a Django backend and a React frontend. Students can sign up, log in, view courses, enroll in courses, view lessons, and track lesson progress.
 
 ## Features
 
@@ -55,20 +55,7 @@ cd backend
 copy .env.example .env
 ```
 
-3. Add your project values to `backend/.env`:
-
-```env
-DEBUG=True
-SECRET_KEY=your-secret-key
-ALLOWED_HOSTS=127.0.0.1,localhost
-CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173
-CSRF_TRUSTED_ORIGINS=http://127.0.0.1:5173
-DB_NAME=mooc_sphere_db
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_HOST=127.0.0.1
-DB_PORT=5432
-```
+3. Open `backend/.env` and configure the values according to your project setup.
 
 ### Frontend .env setup
 1. Go to the frontend folder:
@@ -77,13 +64,15 @@ DB_PORT=5432
 cd frontend
 ```
 
-2. Create a new `.env` file and add the API base URL:
+2. Copy the example file:
 
-```env
-VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
+```bash
+copy .env.example .env
 ```
 
-3. Save the file.
+3. Open `frontend/.env` and add your configuration values.
+
+4. Save the file.
 
 ## Docker Setup for Backend
 
@@ -140,10 +129,8 @@ or
 
 ```text
 http://127.0.0.1:5173
-```
 
-### Build frontend for production
-
-```bash
-npm run build
 ```
+---
+MOOCSphere — A Massive Open Online Course Sphere
+© 2026 MOOCSphere. All rights reserved.
