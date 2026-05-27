@@ -25,6 +25,7 @@ MOOCSphere ( Massive Open Online Course Sphere ) is a MOOC-style course catalog 
 - Lesson progress tracking (visited lessons)
 - Protected user routes for authenticated users
 - Admin panel for course and lesson management
+- Admin can add courses directly by providing a YouTube video URL
 
 ## Tools Used
 
