@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from django.db.models import Count
 
 class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
@@ -16,7 +17,11 @@ class CourseListView(generics.ListAPIView):
 
     def get_queryset(self):
 
-        queryset = Course.objects.all().order_by("-created_at")
+        queryset = Course.objects.annotate(
+            lesson_count=Count("lessons")
+        ).filter(
+            lesson_count__gt=0
+        ).order_by("-created_at")
 
         limit = self.request.query_params.get("limit")
         my_course = self.request.query_params.get("my_course")

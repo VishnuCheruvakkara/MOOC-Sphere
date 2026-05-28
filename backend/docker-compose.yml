@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     container_name: moocsphere_backend
     env_file:
       - .env
@@ -14,7 +14,7 @@ services:
       - .:/app
     depends_on:
       - db
-    command: ["gunicorn", "mooc_sphere.wsgi:application", "--bind", "0.0.0.0:8000"]
+    command: python manage.py runserver 0.0.0.0:8000
 
   db:
     image: postgres:15

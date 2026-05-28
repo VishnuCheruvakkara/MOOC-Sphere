@@ -13,7 +13,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { showError, showSuccess } from '../../utils/toast';
 
-// ✅ added icon
+// added icon
 import { FaCheckCircle } from 'react-icons/fa';
 
 function CourseListPage() {
@@ -56,7 +56,7 @@ function CourseListPage() {
             setLoading(true);
 
             const data = await getCourses(search, page, isMyCourses);
-
+            console.log("Arrived data -> ",data)
             setCourses(data.results);
             setNextPage(data.next);
             setPreviousPage(data.previous);
@@ -67,6 +67,10 @@ function CourseListPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        setPage(1);
+    }, [type]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -139,7 +143,7 @@ function CourseListPage() {
                             className="relative overflow-hidden border-2 border-deep-lavender-300 bg-butter-cream-100"
                         >
 
-                            {/* ✅ Completed Badge */}
+                            {/* Completed Badge */}
                             {course.is_completed && (
                                 <div className="absolute right-2 top-2 z-10 flex items-center gap-1  bg-green-500 px-2 py-1 text-xs font-semibold text-white shadow">
                                     <FaCheckCircle className="text-white" />

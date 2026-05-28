@@ -103,13 +103,21 @@ export default function LandingPage() {
                                 className="overflow-hidden border-2 border-deep-lavender-400 bg-butter-cream-100"
                             >
                                 {/* Thumbnail */}
-                                <img
-                                    src={getYoutubeThumbnail(
-                                        course.first_lesson_video,
+                                <div className="aspect-video overflow-hidden bg-soft-lavender-200">
+                                    {course.first_lesson_video ? (
+                                        <img
+                                            src={getYoutubeThumbnail(
+                                                course.first_lesson_video,
+                                            )}
+                                            alt={course.title}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="flex h-full items-center justify-center text-sm text-deep-lavender-400">
+                                            No Thumbnail
+                                        </div>
                                     )}
-                                    alt={course.title}
-                                    className="h-52 w-full object-cover"
-                                />
+                                </div>
 
                                 {/* Content */}
                                 <div className="flex min-h-[200px] flex-col p-5">
