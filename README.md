@@ -107,7 +107,7 @@ To run the backend with Docker Compose:
 
 ```bash
 cd backend
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 This command starts Django and PostgreSQL in containers.
