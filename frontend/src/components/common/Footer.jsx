@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { PiGraduationCapFill } from 'react-icons/pi';
-import { FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiBriefcase } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 
 export default function Footer() {
@@ -32,7 +32,7 @@ export default function Footer() {
                     <div className="flex items-center gap-4">
 
                         <a
-                            href="https://github.com"
+                            href="https://github.com/VishnuCheruvakkara"
                             target="_blank"
                             rel="noreferrer"
                             className="p-3 border-2 border-deep-lavender-300 text-deep-lavender-500 hover:bg-butter-cream-200"
@@ -41,7 +41,7 @@ export default function Footer() {
                         </a>
 
                         <a
-                            href="https://linkedin.com"
+                            href="https://www.linkedin.com/in/vishnu-c-231b8b235/"
                             target="_blank"
                             rel="noreferrer"
                             className="p-3 border-2 border-deep-lavender-300 text-deep-lavender-500 hover:bg-butter-cream-200"
@@ -49,8 +49,18 @@ export default function Footer() {
                             <FiLinkedin className="text-xl" />
                         </a>
 
+                        {/* Portfolio */}
                         <a
-                            href="https://leetcode.com"
+                            href="https://v2-app.brototype.com/portfolio?id=14cd2a09-d8ee-4fb7-8a19-ab1533cad6cd"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-3 border-2 border-deep-lavender-300 text-deep-lavender-500 hover:bg-butter-cream-200"
+                        >
+                            <FiBriefcase className="text-xl" />
+                        </a>
+
+                        <a
+                            href="https://leetcode.com/u/VishnuCheruvakkara/"
                             target="_blank"
                             rel="noreferrer"
                             className="p-3 border-2 border-deep-lavender-300 text-deep-lavender-500 hover:bg-butter-cream-200"
