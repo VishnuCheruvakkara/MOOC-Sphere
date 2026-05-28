@@ -85,6 +85,11 @@ JWT_COOKIE_SECURE = True
 JWT_COOKIE_HTTPONLY = True
 JWT_COOKIE_SAMESITE = "None"
 
+# make next and prev url of pagination should be https not http
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# Use the original host/domain sent by nginx.
+USE_X_FORWARDED_HOST = True
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
