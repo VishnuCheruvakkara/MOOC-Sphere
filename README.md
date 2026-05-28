@@ -52,6 +52,19 @@ MOOCSphere ( Massive Open Online Course Sphere ) is a MOOC-style course catalog 
 - Jazzmin — improves the Django admin UI for course and lesson management
 - gunicorn — production WSGI server for deploying the Django app
 
+### Deployment tools
+**Frontend Deployment:**
+- Vercel — optimized hosting platform for React/Vite applications with automatic deployments
+- GitHub Actions — CI/CD pipeline for automated testing and deployment
+
+**Backend Deployment:**
+- Docker — containerization platform for consistent deployments across environments
+- Docker Compose — orchestrates multi-container applications (Django + PostgreSQL)
+- Nginx — reverse proxy and web server for handling client requests
+- Google Cloud Platform (GCP) — cloud hosting for backend infrastructure
+- GitHub Actions — CI/CD pipeline for automated building, and deployment
+- GitHub Secrets — secure credential management for deployment credentials and API keys
+
 ## Setup .env Files
 
 ### Backend .env setup
@@ -69,6 +82,8 @@ copy .env.example .env
 
 3. Open `backend/.env` and configure the values according to your project setup.
 
+4. Save the file.
+
 ### Frontend .env setup
 1. Go to the frontend folder:
 
@@ -82,9 +97,7 @@ cd frontend
 copy .env.example .env
 ```
 
-3. Open `frontend/.env` and add your configuration values.
-
-4. Save the file.
+3. Save the file.
 
 ## Docker Setup for Backend
 
