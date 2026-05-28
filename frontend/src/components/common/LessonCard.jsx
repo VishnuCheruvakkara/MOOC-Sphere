@@ -50,7 +50,7 @@ export default function LessonCard({ lesson, onClick, isActive, onVisited, index
                 {/* CONTENT */}
                 <div className="flex-1">
 
-                    {/* 🔢 LESSON NUMBER */}
+                    {/* LESSON NUMBER */}
                     <p className="text-xs text-gray-400 font-medium">
                         Lesson {index + 1}
                     </p>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
@@ -6,19 +6,22 @@ import Loader from '../../components/ui/Loader';
 import Pagination from '../../components/ui/Pagination';
 
 import { getCourses, enrollCourse } from '../../services/courseService';
+
 import { getYoutubeThumbnail } from '../../utils/youtube';
 
 import { useSelector } from 'react-redux';
+
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { showError, showSuccess } from '../../utils/toast';
 
-// added icon
 import { FaCheckCircle } from 'react-icons/fa';
 
 function CourseListPage() {
     const navigate = useNavigate();
+
     const [params] = useSearchParams();
+
     const type = params.get('type');
 
     const isMyCourses = type === 'my-courses';
@@ -26,13 +29,17 @@ function CourseListPage() {
     const { isAuthenticated } = useSelector((state) => state.auth);
 
     const [courses, setCourses] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     const [search, setSearch] = useState('');
-    const [page, setPage] = useState(1);
+
+    const [currentPage, setCurrentPage] = useState(1);
 
     const [totalPages, setTotalPages] = useState(1);
+
     const [nextPage, setNextPage] = useState(null);
+
     const [previousPage, setPreviousPage] = useState(null);
 
     const pageTitle = isMyCourses ? 'My Courses' : 'All Courses';
@@ -45,22 +52,38 @@ function CourseListPage() {
         ? 'Search your courses...'
         : 'Search courses...';
 
-    const emptyTitle = isMyCourses ? 'No Courses Yet' : 'No Courses Found';
+    const emptyTitle = isMyCourses
+        ? 'No Courses Yet'
+        : 'No Courses Found';
 
     const emptyDesc = isMyCourses
         ? 'You have not enrolled in any courses yet.'
         : 'Try searching with different keywords.';
 
-    const fetchCourses = async () => {
+    const skipDebounceRef = useRef(false);
+
+    const fetchCourses = async (url = null, pageOverride = null) => {
         try {
             setLoading(true);
 
-            const data = await getCourses(search, page, isMyCourses);
-            console.log("Arrived data -> ",data)
+            const pageToRequest = pageOverride ?? currentPage;
+
+            const data = await getCourses(
+                search,
+                pageToRequest,
+                isMyCourses,
+                url,
+            );
+
             setCourses(data.results);
+
             setNextPage(data.next);
+
             setPreviousPage(data.previous);
-            setTotalPages(Math.ceil(data.count / 8));
+
+            setCurrentPage(data.current_page);
+
+            setTotalPages(data.total_pages);
         } catch (error) {
             console.error('Failed to fetch courses', error);
         } finally {
@@ -69,16 +92,27 @@ function CourseListPage() {
     };
 
     useEffect(() => {
-        setPage(1);
+      
+        setCurrentPage(1);
+        // prevent the debounced effect from firing after this immediate fetch
+        skipDebounceRef.current = true;
+        fetchCourses(null, 1);
+        
     }, [type]);
 
     useEffect(() => {
+        // If a type-change triggered an immediate fetch, skip the debounced fetch once
+        if (skipDebounceRef.current) {
+            skipDebounceRef.current = false;
+            return;
+        }
+
         const timer = setTimeout(() => {
             fetchCourses();
         }, 700);
 
         return () => clearTimeout(timer);
-    }, [search, page, type]);
+    }, [search, type]);
 
     const handleEnroll = async (courseId) => {
         try {
@@ -86,11 +120,16 @@ function CourseListPage() {
 
             const created = response.data.created;
 
-            showSuccess(created ? 'Enrolled successfully' : 'Already enrolled');
+            showSuccess(
+                created
+                    ? 'Enrolled successfully'
+                    : 'Already enrolled',
+            );
 
             navigate(`/user/courses/${courseId}`);
         } catch (error) {
             console.error('Enrollment failed', error);
+
             showError('Enrollment failed');
         }
     };
@@ -121,7 +160,6 @@ function CourseListPage() {
                         value={search}
                         onChange={(e) => {
                             setSearch(e.target.value);
-                            setPage(1);
                         }}
                     />
 
@@ -130,12 +168,11 @@ function CourseListPage() {
                         type="outline"
                         onClick={() => {
                             setSearch('');
-                            setPage(1);
                         }}
                     />
                 </div>
 
-                {/* Courses grid */}
+                {/* Courses Grid */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {courses.map((course) => (
                         <div
@@ -145,7 +182,7 @@ function CourseListPage() {
 
                             {/* Completed Badge */}
                             {course.is_completed && (
-                                <div className="absolute right-2 top-2 z-10 flex items-center gap-1  bg-green-500 px-2 py-1 text-xs font-semibold text-white shadow">
+                                <div className="absolute right-2 top-2 z-10 flex items-center gap-1 bg-green-500 px-2 py-1 text-xs font-semibold text-white shadow">
                                     <FaCheckCircle className="text-white" />
                                     Completed
                                 </div>
@@ -178,7 +215,6 @@ function CourseListPage() {
                                     {course.description}
                                 </p>
 
-                                {/* Action */}
                                 <div className="mt-auto pt-4">
                                     {!isAuthenticated ? (
                                         <Button
@@ -188,6 +224,7 @@ function CourseListPage() {
                                                 showError(
                                                     'Please login to enroll course',
                                                 );
+
                                                 navigate('/login');
                                             }}
                                         />
@@ -216,7 +253,7 @@ function CourseListPage() {
                     ))}
                 </div>
 
-                {/* Empty state */}
+                {/* Empty State */}
                 {courses.length === 0 && !loading && (
                     <div className="flex min-h-[350px] items-center justify-center py-16">
                         <div className="text-center">
@@ -233,12 +270,12 @@ function CourseListPage() {
 
                 {/* Pagination */}
                 <Pagination
-                    page={page}
+                    currentPage={currentPage}
                     totalPages={totalPages}
                     loading={loading}
                     nextPage={nextPage}
                     previousPage={previousPage}
-                    setPage={setPage}
+                    fetchCourses={fetchCourses}
                 />
             </div>
         </div>

@@ -75,8 +75,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 8,
+    "DEFAULT_PAGINATION_CLASS": "apps.common.pagination.CustomPagination",
 }
 
 JWT_ACCESS_COOKIE_NAME = "access_token"
@@ -164,7 +163,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Use Indian Standard Time (Asia/Kolkata) globally for the backend
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
