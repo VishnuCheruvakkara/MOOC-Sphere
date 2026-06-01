@@ -55,7 +55,6 @@ class Enrollment(models.Model):
     def __str__(self):
         return f"{self.user.username} enrolled in {self.course.title}"
 
-
 class LessonProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="lesson_progress")
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="progress")

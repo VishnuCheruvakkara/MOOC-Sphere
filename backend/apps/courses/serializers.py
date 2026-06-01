@@ -78,7 +78,6 @@ class CourseSerializer(serializers.ModelSerializer):
 
         return enrollment.is_completed()
 
-
 class CourseDetailSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True,read_only=True)
 
